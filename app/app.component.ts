@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   template: `
     <div class="container-fluid">
       <h1>Task management (while we think of a better title)</h1>
-      <current-task></current-task>
+      <new-task></new-task>
       <task-list></task-list>
     </div>
   `,

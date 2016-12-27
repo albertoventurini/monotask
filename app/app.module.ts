@@ -2,13 +2,16 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent }  from './app.component';
-import { TaskListComponent } from './task-list.component';
-import { CurrentTaskComponent } from './current-task.component';
+import { ActiveTasksComponent } from './active-tasks.component';
+import { NewTaskComponent } from './new-task.component';
 import { ClockComponent } from './clock.component';
+import { TaskStore } from './task.store';
 
 @NgModule({
-  imports:      [ BrowserModule ],
-  declarations: [ AppComponent, TaskListComponent, CurrentTaskComponent, ClockComponent ],
-  bootstrap:    [ AppComponent ]
+  imports: [ BrowserModule ],
+  declarations: [ AppComponent, ActiveTasksComponent, NewTaskComponent, ClockComponent ],
+  bootstrap: [ AppComponent ],
+  providers: [ TaskStore ]
 })
-export class AppModule { }
+export class AppModule { 
+}
