@@ -13,10 +13,10 @@ export class TaskStore {
     public tasks: Observable<List<Task>> = this._tasks.asObservable();
 
     constructor() {
-        this.addTask({ id: 1, name: "first task" });
     }
 
-    addTask(newTask: Task) {
+    createTask(taskName: string) {
+        let newTask: Task = { id: 1, name: taskName }; // hard-wiring id = 1, to be changed
         this._tasks.next(this._tasks.getValue().push(newTask));
     }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { TaskStore } from './task.store';
 
@@ -9,8 +9,15 @@ import { TaskStore } from './task.store';
 })
 export class NewTaskComponent {
 
+    taskName: string;
+
     constructor(private taskStore: TaskStore) {
 
+    }
+
+    addTask() {
+        this.taskStore.createTask(this.taskName);
+        this.taskName = "";
     }
 
     

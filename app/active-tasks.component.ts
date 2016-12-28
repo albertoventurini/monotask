@@ -7,14 +7,15 @@ import { TaskStore } from './task.store';
     template: `
     <h2>Active tasks</h2>
     <ul>
-    <!--
-        <li *ngFor="let task in taskStore.tasks | async">
+        <li *ngFor="let task of taskStore.tasks | async">
             {{task.name}}
         </li>
-        -->
     </ul>
     `
 })
 export class ActiveTasksComponent {
+
+    constructor(private taskStore: TaskStore) {
+    }
 
 }
