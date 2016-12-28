@@ -16,7 +16,7 @@ export class TaskStore {
     }
 
     createTask(taskName: string) {
-        let newTask: Task = { id: 1, name: taskName }; // hard-wiring id = 1, to be changed
+        let newTask: Task = { id: 1, name: taskName, timeInSeconds: 0 }; // hard-wiring id = 1, to be changed
         this._tasks.next(this._tasks.getValue().push(newTask));
     }
 }

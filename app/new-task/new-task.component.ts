@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { TaskStore } from './task.store';
+import { TaskStore } from '../task/task.store';
 
 @Component({
     moduleId: module.id,

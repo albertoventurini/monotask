@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent }  from './app.component';
-import { ActiveTasksComponent } from './active-tasks.component';
-import { NewTaskComponent } from './new-task.component';
+import { ActiveTasksComponent } from './active-tasks/active-tasks.component';
+import { NewTaskComponent } from './new-task/new-task.component';
 import { ClockComponent } from './clock.component';
-import { TaskStore } from './task.store';
+import { TaskStore } from './task/task.store';
 
 @NgModule({
   imports: [ BrowserModule, FormsModule ],

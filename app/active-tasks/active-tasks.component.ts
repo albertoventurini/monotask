@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { TaskStore } from './task.store';
+import { TaskStore } from '../task/task.store';
 
 @Component({
     selector: 'task-list',
@@ -9,6 +9,8 @@ import { TaskStore } from './task.store';
     <ul>
         <li *ngFor="let task of taskStore.tasks | async">
             {{task.name}}
+            <button>Start</button>
+            <button>Stop</button>
         </li>
     </ul>
     `
