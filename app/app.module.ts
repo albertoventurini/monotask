@@ -8,6 +8,7 @@ import { ActiveTaskComponent } from './active-tasks/active-task.component';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { ClockComponent } from './clock.component';
 import { TaskStore } from './task/task.store';
+import { TaskDB } from './task/task.db';
 
 @NgModule({
   imports: [ BrowserModule, FormsModule ],
@@ -19,7 +20,7 @@ import { TaskStore } from './task/task.store';
     ClockComponent
   ],
   bootstrap: [ AppComponent ],
-  providers: [ TaskStore ]
+  providers: [ TaskStore, TaskDB ]
 })
 export class AppModule { 
 }

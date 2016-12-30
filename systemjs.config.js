@@ -26,7 +26,9 @@
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-      'immutable':                  'node_modules/immutable/dist/immutable.js'
+      'immutable':                  'npm:immutable/dist/immutable.js',
+      'nedb': 'npm:nedb/browser-version/out/nedb.min.js',
+      'q': 'npm:q/q.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {

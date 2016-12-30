@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     <div class="container-fluid">
       <h1>Task management (while we think of a better title)</h1>
       <new-task></new-task>
-      <task-list></task-list>
+      <active-tasks></active-tasks>
     </div>
   `,
 })
