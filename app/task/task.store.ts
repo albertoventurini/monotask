@@ -44,16 +44,26 @@ export class TaskStore {
             });
     }
 
-    updateTask(task: Task) {
-        let currentList = this._tasks.getValue();
-        let index = currentList.findIndex(t => t._id === task._id);
-        currentList = currentList.update(index, t => task);
-        this._tasks.next(currentList);
-    }
+    // updateTask(task: Task) {
+    //     let currentList = this._tasks.getValue();
+    //     let index = currentList.findIndex(t => t._id === task._id);
+    //     currentList = currentList.update(index, t => task);
+    //     this._tasks.next(currentList);
+    // }
 
     loadTodaysTasks() {
         this.coll.load({})
             .then( (tasks: Task[]) => this._tasks.next(List<Task>(tasks)) );
+    }
+
+    removeTask(taskId: number) {
+        this.coll.remove({ '_id': taskId  }, {})
+            .then( _ => {
+                let currentList = this._tasks.getValue();
+                let index = currentList.findIndex(t => t._id === taskId);
+                currentList = currentList.remove(index);
+                this._tasks.next(currentList);
+            });
     }
 }
 
@@ -78,9 +88,9 @@ class BaseCollection<T> {
         return deferred.promise;
     }
 
-    update(query:Object, updateQuery:Object, options?:any):Q.Promise<number> {
+    update(query: any, updateQuery: any, options?: any) {
         let deferred = Q.defer<number>();
-        this.dataStore.update(query, updateQuery, options, function (err:Error, numberOfUpdated:number) {
+        this.dataStore.update(query, updateQuery, options, function (err: any, numberOfUpdated:number) {
             if (err) {
                 deferred.reject(err);
             }
@@ -91,9 +101,9 @@ class BaseCollection<T> {
         return deferred.promise;
     }
 
-    load(filter: any) {
+    load(query: any) {
         let deferred = Q.defer<T[]>();
-        this.dataStore.find(filter, function(err: any, docs: T[]) {
+        this.dataStore.find(query, function(err: any, docs: T[]) {
             if(err) {
                 deferred.reject(err);
             } else {
@@ -102,4 +112,21 @@ class BaseCollection<T> {
         });
         return deferred.promise;
     }
+
+    remove(query: Object, options?: any) {
+        let deferred = Q.defer<number>();
+        this.dataStore.remove(query, options, function(err, numberOfRemoved) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(numberOfRemoved);
+            }
+        });
+        return deferred.promise;
+    }
+
+    // private wrapWithPromise<U>(f: Function) {
+    //     let deferred = Q.defer<U>();
+
+    // }
 }

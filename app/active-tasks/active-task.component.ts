@@ -42,4 +42,8 @@ export class ActiveTaskComponent {
         this.task.timeInSeconds = this.seconds;
         this.taskStore.setTaskTime(this.task._id, this.seconds);
     }
+
+    onRemove() {
+        this.taskStore.removeTask(this.task._id);
+    }
 }
