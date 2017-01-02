@@ -20,7 +20,7 @@ export class TaskStore {
     }
 
     createTask(taskName: string) {
-        let task: Task = { name: taskName, timeInSeconds: 0 };
+        let task: Task = { name: taskName, timeInSeconds: 0, createdAt: new Date() };
         this.coll.insert(task)
             .then( (createdTask: Task) => this._tasks.next(this._tasks.getValue().push(createdTask)));
     }

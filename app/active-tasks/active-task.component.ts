@@ -9,7 +9,8 @@ import { TaskStore } from '../task/task.store';
     selector: 'active-task',
     template: `
         <div>
-            {{task.name}} - {{seconds | secondsToHhMmSs}}
+            {{task.name}} - Total time: {{seconds | secondsToHhMmSs}}
+            - Created at: {{task.createdAt | date:short}}
             <button (click)="onStart()">Start</button>
             <button (click)="onStop()">Stop</button>
             <button (click)="onRemove()">Remove</button>
