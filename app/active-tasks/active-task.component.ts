@@ -9,7 +9,7 @@ import { TaskStore } from '../task/task.store';
     selector: 'active-task',
     template: `
         <div>
-            {{task.name}} - {{seconds}}
+            {{task.name}} - {{seconds | secondsToHhMmSs}}
             <button (click)="onStart()">Start</button>
             <button (click)="onStop()">Stop</button>
             <button (click)="onRemove()">Remove</button>

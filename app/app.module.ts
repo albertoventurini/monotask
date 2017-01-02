@@ -6,9 +6,8 @@ import { AppComponent }  from './app.component';
 import { ActiveTasksComponent } from './active-tasks/active-tasks.component';
 import { ActiveTaskComponent } from './active-tasks/active-task.component';
 import { NewTaskComponent } from './new-task/new-task.component';
-import { ClockComponent } from './clock.component';
 import { TaskStore } from './task/task.store';
-import { TaskDB } from './task/task.db';
+import { SecondsToHhMmSsPipe } from './utils/secondsToHhMmSs.pipe';
 
 @NgModule({
   imports: [ BrowserModule, FormsModule ],
@@ -17,10 +16,10 @@ import { TaskDB } from './task/task.db';
     ActiveTasksComponent,
     ActiveTaskComponent,
     NewTaskComponent,
-    ClockComponent
+    SecondsToHhMmSsPipe
   ],
   bootstrap: [ AppComponent ],
-  providers: [ TaskStore, TaskDB ]
+  providers: [ TaskStore ]
 })
 export class AppModule { 
 }
