@@ -15,6 +15,7 @@ import { ActiveTaskComponent } from './active-task.component';
 export class ActiveTasksComponent {
 
     constructor(private taskStore: TaskStore) {
+        this.taskStore.loadTodaysTasks();
     }
 
 }

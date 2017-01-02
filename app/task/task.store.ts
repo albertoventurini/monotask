@@ -27,9 +27,33 @@ export class TaskStore {
 
     createTask(taskName: string) {
         let task: Task = { name: taskName, timeInSeconds: 0 };
-        this.coll.insert(task).then(function(createdTask: Task) {
-            this._tasks.next(this._tasks.getValue().push(createdTask));
-        }.bind(this));
+        this.coll.insert(task)
+            .then( (createdTask: Task) => this._tasks.next(this._tasks.getValue().push(createdTask)));
+    }
+
+    setTaskTime(taskId: number, newTime: number) {
+        this.coll.update({ '_id': taskId }, { $set: { timeInSeconds: newTime } }, {})
+            .then( _ => {
+                let currentList = this._tasks.getValue();
+                let index = currentList.findIndex(t => t._id === taskId);
+                currentList = currentList.update(index, t => {
+                    t.timeInSeconds = newTime;
+                    return t;
+                });
+                this._tasks.next(currentList);
+            });
+    }
+
+    updateTask(task: Task) {
+        let currentList = this._tasks.getValue();
+        let index = currentList.findIndex(t => t._id === task._id);
+        currentList = currentList.update(index, t => task);
+        this._tasks.next(currentList);
+    }
+
+    loadTodaysTasks() {
+        this.coll.load({})
+            .then( (tasks: Task[]) => this._tasks.next(List<Task>(tasks)) );
     }
 }
 
@@ -40,8 +64,7 @@ class BaseCollection<T> {
     constructor(private dataStore: Datastore) {
     }
 
-    insert(document: T) {
-        
+    insert(document: T) {        
         let deferred = Q.defer<T>();
 
         this.dataStore.insert<T>(document, function(err: any, newDoc: T) {
@@ -52,6 +75,31 @@ class BaseCollection<T> {
             }
         });
 
+        return deferred.promise;
+    }
+
+    update(query:Object, updateQuery:Object, options?:any):Q.Promise<number> {
+        let deferred = Q.defer<number>();
+        this.dataStore.update(query, updateQuery, options, function (err:Error, numberOfUpdated:number) {
+            if (err) {
+                deferred.reject(err);
+            }
+            else {
+                deferred.resolve(numberOfUpdated);
+            }
+        });
+        return deferred.promise;
+    }
+
+    load(filter: any) {
+        let deferred = Q.defer<T[]>();
+        this.dataStore.find(filter, function(err: any, docs: T[]) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(docs);
+            }
+        });
         return deferred.promise;
     }
 }

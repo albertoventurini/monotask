@@ -3,6 +3,7 @@ import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 
 import { Task } from '../task/task';
+import { TaskStore } from '../task/task.store';
 
 @Component({
     selector: 'active-task',
@@ -23,6 +24,9 @@ export class ActiveTaskComponent {
 
     private observableTimedSequence = Observable.interval(1000);
 
+    constructor(private taskStore: TaskStore) {
+    }
+
     ngOnInit() {
         this.seconds = this.task.timeInSeconds;
     }
@@ -35,5 +39,7 @@ export class ActiveTaskComponent {
         if(this.subscription) {
             this.subscription.unsubscribe();
         }
+        this.task.timeInSeconds = this.seconds;
+        this.taskStore.setTaskTime(this.task._id, this.seconds);
     }
 }
