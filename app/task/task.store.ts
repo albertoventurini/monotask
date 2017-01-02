@@ -46,7 +46,9 @@ export class TaskStore {
     // }
 
     loadTodaysTasks() {
-        this.coll.load({})
+        let today = new Date();
+        today.setHours(0,0,0,0);
+        this.coll.load({ 'createdAt': { $gte: today } })
             .then( (tasks: Task[]) => this._tasks.next(List<Task>(tasks)) );
     }
 
