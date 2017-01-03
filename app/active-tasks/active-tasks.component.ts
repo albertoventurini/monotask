@@ -29,7 +29,7 @@ export class ActiveTasksComponent {
     }
 
     onStop(payload: any) {
-        this.taskStore.setTaskTime(payload.task, payload.seconds);
+        this.taskStore.setTaskTime(payload.task._id, payload.seconds);
     }
 
     onRemove(task: Task) {
