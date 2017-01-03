@@ -1,5 +1,5 @@
 {
-  "name": "time-task-waiting-for-a-better-name",
+  "name": "monotask",
   "version": "1.0.0",
   "description": "A time tracker and task management application",
   "scripts": {
