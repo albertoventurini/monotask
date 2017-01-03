@@ -1,9 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 
 import { Task } from '../task/task';
-import { TaskStore } from '../task/task.store';
 
 @Component({
     selector: 'active-task',
@@ -11,40 +10,38 @@ import { TaskStore } from '../task/task.store';
         <div>
             {{task.name}} - Total time: {{seconds | secondsToHhMmSs}}
             - Created at: {{task.createdAt | date:short}}
-            <button (click)="onStart()">Start</button>
-            <button (click)="onStop()">Stop</button>
-            <button (click)="onRemove()">Remove</button>
+            <button (click)="start()">Start</button>
+            <button (click)="stop()">Stop</button>
+            <button (click)="remove()">Remove</button>
         </div>
     `
 })
 export class ActiveTaskComponent {
     @Input() task: Task;
     private seconds: number;
+    @Output() onStop = new EventEmitter<any>();
+    @Output() onRemove = new EventEmitter<number>();
 
     private subscription: Subscription;
 
     private observableTimedSequence = Observable.interval(1000);
 
-    constructor(private taskStore: TaskStore) {
-    }
-
     ngOnInit() {
         this.seconds = this.task.timeInSeconds;
     }
 
-    onStart() {
+    start() {
         this.subscription = this.observableTimedSequence.subscribe(x => this.seconds++);
     }
 
-    onStop() {
+    stop() {
         if(this.subscription) {
             this.subscription.unsubscribe();
         }
-        this.task.timeInSeconds = this.seconds;
-        this.taskStore.setTaskTime(this.task._id, this.seconds);
+        this.onStop.emit({ taskId: this.task._id, seconds: this.seconds });
     }
 
-    onRemove() {
-        this.taskStore.removeTask(this.task._id);
+    remove() {
+        this.onRemove.emit(this.task._id);
     }
 }
