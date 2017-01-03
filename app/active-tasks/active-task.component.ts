@@ -19,8 +19,9 @@ import { Task } from '../task/task';
 export class ActiveTaskComponent {
     @Input() task: Task;
     private seconds: number;
+    @Output() onStart = new EventEmitter<Task>();
     @Output() onStop = new EventEmitter<any>();
-    @Output() onRemove = new EventEmitter<number>();
+    @Output() onRemove = new EventEmitter<Task>();
 
     private subscription: Subscription;
 
@@ -32,16 +33,17 @@ export class ActiveTaskComponent {
 
     start() {
         this.subscription = this.observableTimedSequence.subscribe(x => this.seconds++);
+        this.onStart.emit(this.task);
     }
 
     stop() {
         if(this.subscription) {
             this.subscription.unsubscribe();
         }
-        this.onStop.emit({ taskId: this.task._id, seconds: this.seconds });
+        this.onStop.emit({ task: this.task, seconds: this.seconds });
     }
 
     remove() {
-        this.onRemove.emit(this.task._id);
+        this.onRemove.emit(this.task);
     }
 }
