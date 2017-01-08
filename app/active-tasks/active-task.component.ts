@@ -1,8 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { Observable } from "rxjs/Observable";
-import { Subscription } from "rxjs/Subscription";
 
 import { Task } from '../task/task';
+import { Timer } from '../utils/timer';
 
 @Component({
     selector: 'active-task',
@@ -18,28 +17,24 @@ import { Task } from '../task/task';
 })
 export class ActiveTaskComponent {
     @Input() task: Task;
-    private seconds: number;
     @Output() onStart = new EventEmitter<Task>();
     @Output() onStop = new EventEmitter<any>();
     @Output() onRemove = new EventEmitter<Task>();
 
-    private subscription: Subscription;
-
-    private observableTimedSequence = Observable.interval(1000);
+    private timer: Timer = new Timer();
+    private seconds: number;
 
     ngOnInit() {
         this.seconds = this.task.timeInSeconds;
     }
 
     start() {
-        this.subscription = this.observableTimedSequence.subscribe(x => this.seconds++);
+        this.timer.start((elapsed: number) => this.seconds = elapsed);
         this.onStart.emit(this.task);
     }
 
     stop() {
-        if(this.subscription) {
-            this.subscription.unsubscribe();
-        }
+        this.timer.stop();
         this.onStop.emit({ task: this.task, seconds: this.seconds });
     }
 
