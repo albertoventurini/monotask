@@ -29,7 +29,7 @@ export class ActiveTaskComponent {
     }
 
     start() {
-        this.timer.start((elapsed: number) => this.seconds = elapsed);
+        this.timer.start(this.seconds, (elapsed: number) => this.seconds = elapsed);
         this.onStart.emit(this.task);
     }
 

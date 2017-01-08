@@ -7,11 +7,11 @@ export class Timer {
     private observableTimedSequence = Observable.interval(1000);
     private startTime: Date;
 
-    start(tickCallback: Function) {
+    start(initialSeconds: number, tickCallback: Function) {
         this.startTime = new Date();
         this.subscription = this.observableTimedSequence.subscribe(x => {
             let now = new Date();
-            let elapsed = Math.floor((now.getTime() - this.startTime.getTime()) / 1000);
+            let elapsed = initialSeconds + Math.floor((now.getTime() - this.startTime.getTime()) / 1000);
             tickCallback(elapsed);
         });
     }

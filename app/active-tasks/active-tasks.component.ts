@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChildren, QueryList } from '@angular/core';
 
 import { TaskStore } from '../task/task.store';
 import { ActiveTaskComponent } from './active-task.component';
@@ -18,6 +18,8 @@ import { Task } from '../task/task';
     `
 })
 export class ActiveTasksComponent {
+    @ViewChildren(ActiveTaskComponent) private activeTasks: QueryList<ActiveTaskComponent>;
+
     private selectedTask: Task;
 
     constructor(private taskStore: TaskStore) {
@@ -25,7 +27,15 @@ export class ActiveTasksComponent {
     }
 
     onStart(task: Task) {
+        this.stopActiveTask();
         this.selectedTask = task;
+    }
+
+    private stopActiveTask() {
+        let currentActiveTask = this.activeTasks.find(at => at.task === this.selectedTask);
+        if(currentActiveTask) {
+            currentActiveTask.stop();
+        }
     }
 
     onStop(payload: any) {
